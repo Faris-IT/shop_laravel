@@ -25,10 +25,26 @@
                     <a href="{{ route('home') }}" class="text-gray-700 hover:text-gray-900">Home</a>
                     
                     @auth
+                        <a href="{{ route('cart.index') }}" class="text-gray-700 hover:text-gray-900 relative">
+                            <i class="fas fa-shopping-cart text-xl"></i>
+                            @php
+                                $cartCount = \App\Models\Cart::where('user_id', auth()->id())->count();
+                            @endphp
+                            @if($cartCount > 0)
+                                <span class="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
+                                    {{ $cartCount }}
+                                </span>
+                            @endif
+                        </a>
+                        <a href="{{ route('orders.index') }}" class="text-gray-700 hover:text-gray-900">
+                            <i class="fas fa-shopping-bag text-xl"></i>
+                        </a>
+                        
                         @if(auth()->user()->isAdmin())
                             <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-gray-900">Dashboard</a>
                             <a href="{{ route('admin.products') }}" class="text-gray-700 hover:text-gray-900">Kelola Produk</a>
                             <a href="{{ route('admin.categories') }}" class="text-gray-700 hover:text-gray-900">Kategori</a>
+                            <a href="{{ route('admin.orders') }}" class="text-gray-700 hover:text-gray-900">Pesanan</a>
                         @endif
                         
                         <div class="relative group">

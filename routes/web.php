@@ -4,6 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 
 // Public routes
 Route::get('/', [ProductController::class, 'publicIndex'])->name('home');
@@ -18,6 +21,23 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Cart routes (authenticated only)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::put('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{cart}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+    
+    // Checkout routes
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    
+    // Order routes
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+});
 
 // Admin routes
 Route::middleware(['auth'])->prefix('admin')->group(function () {
@@ -36,4 +56,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
     Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+    
+    // Order management
+    Route::get('/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
+    Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.update-status');
 });

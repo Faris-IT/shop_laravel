@@ -6,7 +6,7 @@
 <div class="max-w-7xl mx-auto px-4">
     <h1 class="text-3xl font-bold text-gray-800 mb-8">Dashboard Admin</h1>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Total Products Card -->
         <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-center">
@@ -45,17 +45,59 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Total Orders Card -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-yellow-500 rounded-full p-3">
+                    <i class="fas fa-shopping-bag text-white text-2xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-gray-600 text-sm">Total Pesanan</p>
+                    <p class="text-2xl font-bold">{{ $totalOrders ?? 0 }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pending Orders Card -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-orange-500 rounded-full p-3">
+                    <i class="fas fa-clock text-white text-2xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-gray-600 text-sm">Pesanan Pending</p>
+                    <p class="text-2xl font-bold">{{ $pendingOrders ?? 0 }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Revenue Card -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+                <div class="bg-green-500 rounded-full p-3">
+                    <i class="fas fa-money-bill-wave text-white text-2xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-gray-600 text-sm">Pendapatan</p>
+                    <p class="text-2xl font-bold">Rp {{ number_format($totalRevenue ?? 0, 0, ',', '.') }}</p>
+                </div>
+            </div>
+        </div>
     </div>
     
     <!-- Quick Actions -->
     <div class="mt-8 bg-white rounded-lg shadow-md p-6">
         <h2 class="text-xl font-bold mb-4">Aksi Cepat</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a href="{{ route('admin.products.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded text-center hover:bg-blue-600">
                 <i class="fas fa-plus mr-2"></i> Tambah Produk Baru
             </a>
             <a href="{{ route('admin.categories') }}" class="bg-green-500 text-white px-4 py-2 rounded text-center hover:bg-green-600">
                 <i class="fas fa-folder-plus mr-2"></i> Kelola Kategori
+            </a>
+            <a href="{{ route('admin.orders') }}" class="bg-purple-500 text-white px-4 py-2 rounded text-center hover:bg-purple-600">
+                <i class="fas fa-shopping-bag mr-2"></i> Kelola Pesanan
             </a>
         </div>
     </div>

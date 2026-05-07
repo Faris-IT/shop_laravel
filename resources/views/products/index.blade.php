@@ -49,6 +49,15 @@
                                     Detail
                                 </a>
                             </div>
+                            @auth
+                                <form action="{{ route('cart.add', $product) }}" method="POST" class="mt-3">
+                                    @csrf
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                                        <i class="fas fa-cart-plus mr-2"></i> Tambah ke Keranjang
+                                    </button>
+                                </form>
+                            @endauth
                         </div>
                     </div>
                 @empty

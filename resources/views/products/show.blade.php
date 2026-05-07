@@ -34,14 +34,23 @@
                     <p class="text-gray-600 leading-relaxed">{{ $product->description }}</p>
                 </div>
                 
-                <div class="flex gap-4">
-                    <button class="flex-1 bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition">
-                        <i class="fas fa-shopping-cart mr-2"></i> Beli Sekarang
-                    </button>
-                    <button class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition">
-                        <i class="fas fa-heart mr-2"></i> Wishlist
-                    </button>
-                </div>
+                @auth
+                    <form action="{{ route('cart.add', $product) }}" method="POST" class="mb-4">
+                        @csrf
+                        <div class="flex items-center gap-4 mb-4">
+                            <label class="font-semibold">Jumlah:</label>
+                            <input type="number" name="quantity" value="1" min="1" max="99" 
+                                   class="w-20 px-3 py-2 border rounded text-center">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition">
+                            <i class="fas fa-shopping-cart mr-2"></i> Tambah ke Keranjang
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="block w-full bg-blue-500 text-white text-center py-3 rounded-lg hover:bg-blue-600 transition">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Login untuk Membeli
+                    </a>
+                @endauth
             </div>
         </div>
     </div>
