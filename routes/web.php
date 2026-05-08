@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 
 // Public routes
 Route::get('/', [ProductController::class, 'publicIndex'])->name('home');
@@ -60,4 +61,20 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Order management
     Route::get('/orders', [OrderController::class, 'adminIndex'])->name('admin.orders');
     Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.update-status');
+});
+// Payment routes (authenticated only)
+Route::middleware(['auth'])->group(function () {
+    // ... existing routes ...
+    
+    // Payment routes
+    Route::get('/payment/{order}', [PaymentController::class, 'show'])->name('payment.show');
+    Route::post('/payment/{order}/upload', [PaymentController::class, 'uploadProof'])->name('payment.upload');
+});
+
+// Admin payment verification routes
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // ... existing routes ...
+    
+    Route::post('/payments/{payment}/verify', [PaymentController::class, 'verify'])->name('admin.payments.verify');
+    Route::post('/payments/{payment}/reject', [PaymentController::class, 'reject'])->name('admin.payments.reject');
 });
